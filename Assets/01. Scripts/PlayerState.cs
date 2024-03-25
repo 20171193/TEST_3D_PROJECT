@@ -11,14 +11,13 @@ public class PlayerState : MonoBehaviour
 
     private void GroundCheck()
     {
-        if (Physics.Raycast(transform.position, -transform.up, 1.2f, LayerMask.NameToLayer("Ground")))
+        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hitInfo, 1.2f, LayerMask.NameToLayer("Ground")))
         {
-            Debug.Log("IsGround");
+            Debug.Log(hitInfo.collider.gameObject.name);
             isGround = true;
         }
         else
         {
-            Debug.Log("notGround");
             isGround = false;
         }
     }
