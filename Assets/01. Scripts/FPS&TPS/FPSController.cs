@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
-using UnityEngine.InputSystem.XR;
 using System;
-using UnityEngine.UIElements;
 
 public class FPSController : PlayerController
 {
@@ -16,6 +14,9 @@ public class FPSController : PlayerController
     [SerializeField] 
     private CinemachineVirtualCamera fpsCamera;
 
+    [SerializeField]
+    private Transform aimTr;
+
     [Header("Specs")]
     [SerializeField]
     private float maxMovePower;
@@ -25,12 +26,17 @@ public class FPSController : PlayerController
     private float movePower;
     [SerializeField]
     private float jumpPower;
+    [SerializeField]
+    private float mouseSensitivity;
 
     [Header("Balancing")]
     [SerializeField]
     private Vector3 inputDir;
     [SerializeField]
     private Vector3 moveDir;
+    [SerializeField]
+    private Vector2 inputMouseDir;
+
     [SerializeField]
     private float ySpeed = 0f;
     [SerializeField]
@@ -44,18 +50,15 @@ public class FPSController : PlayerController
         // FPS는 자신을 카메라에 노출할 필요가 없음.
         // 총, 팔 등은 Player Layer에서 제외하기.
         Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Player"));
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
         Move();
-        Rotation();
         Jump();
-    }
-
-    private void Rotation()
-    {
-
+        Rotation();
+        Aiming();
     }
 
     #region Input Action
@@ -69,7 +72,8 @@ public class FPSController : PlayerController
         if (moveDir == Vector3.zero) return;
 
         float curMovePower = isWalk ? walkPower : movePower;
-        controller.Move(curMovePower * moveDir * Time.deltaTime);
+        controller.Move(transform.forward * curMovePower * moveDir.z * Time.deltaTime);
+        controller.Move(transform.right * curMovePower * moveDir.x * Time.deltaTime);
     }
 
     private void OnWalk(InputValue value)
@@ -95,9 +99,18 @@ public class FPSController : PlayerController
         controller.Move(Vector3.up * ySpeed * Time.deltaTime);
     }
 
-    private void OnMousePos(InputValue value)
+    private void OnLook(InputValue value)
     {
-       
+       inputMouseDir = value.Get<Vector2>();
     }
+    private void Aiming()
+    {
+        aimTr.Rotate(Vector3.right, -inputMouseDir.y * mouseSensitivity * Time.deltaTime);
+    }
+    private void Rotation()
+    {
+        transform.Rotate(Vector3.up, inputMouseDir.x * mouseSensitivity * Time.deltaTime);
+    }
+
     #endregion
 }
