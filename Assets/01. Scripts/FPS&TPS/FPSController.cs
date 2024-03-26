@@ -69,7 +69,16 @@ public class FPSController : PlayerController
     }
     private void Move()
     {
-        if (moveDir == Vector3.zero) return;
+        anim.SetFloat("xSpeed", inputDir.x);
+        anim.SetFloat("zSpeed", inputDir.z);
+
+        if (moveDir == Vector3.zero)
+        {
+            anim.SetBool("IsMoving", false);
+            return;
+        }
+        else
+            anim.SetBool("IsMoving", true);
 
         float curMovePower = isWalk ? walkPower : movePower;
         controller.Move(transform.forward * curMovePower * moveDir.z * Time.deltaTime);
@@ -82,6 +91,8 @@ public class FPSController : PlayerController
             isWalk = true;
         else
             isWalk = false;
+
+        anim.SetBool("IsWalking", isWalk);
     }
 
     private void OnJump(InputValue value)
