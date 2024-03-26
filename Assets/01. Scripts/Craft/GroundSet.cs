@@ -19,7 +19,8 @@ public class GroundSet : MonoBehaviour
     private float xSideLength;
     private float zSideLength;
 
-    private void Awake()
+    [ContextMenu("DrawGround")]
+    public void DrawGround()
     {
         dummyPlaneMr.enabled = false;
 
@@ -29,12 +30,8 @@ public class GroundSet : MonoBehaviour
         xWidth = (int)(transform.localScale.x * 10);
         zWidth = (int)(transform.localScale.z * 10);
 
-        DrawGround();
-    }
 
-    private void DrawGround()
-    {
-        for(int z = 0; z < zWidth; z++)
+        for (int z = 0; z < zWidth; z++)
         {
             for(int x = 0; x < xWidth; x++)
             {
@@ -46,5 +43,13 @@ public class GroundSet : MonoBehaviour
                 inst.transform.parent = transform;
             }
         }
+    }
+
+    [ContextMenu("ResetGround")]
+    public void ResetGround()
+    {
+        dummyPlaneMr.enabled = true;
+        while (transform.childCount > 0)
+            Destroy(transform.GetChild(0).gameObject);
     }
 }

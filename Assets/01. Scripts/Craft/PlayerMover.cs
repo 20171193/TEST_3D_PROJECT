@@ -12,7 +12,7 @@ public class PlayerMover : MonoBehaviour
     [SerializeField]
     private Animator anim;
     [SerializeField]
-    private GameObject joystickOb;
+    private JoystickController joystick;
 
     [Space(3)]
     [Header("Specs")]
@@ -23,6 +23,7 @@ public class PlayerMover : MonoBehaviour
     private float runSpeed;
     [SerializeField]
     private float jumpPower;
+
 
     [Space(3)]
     [Header("Balancing")]
@@ -37,11 +38,12 @@ public class PlayerMover : MonoBehaviour
         set 
         { 
             isJoystickMove = value;
-            joystickOb.SetActive(value);
+            joystick.gameObject.SetActive(value);
         } 
     }   
 
     private Vector2 inputDir;
+    private Vector3 moveDir;
 
     private void Update()
     {
@@ -53,15 +55,30 @@ public class PlayerMover : MonoBehaviour
     }
     private void Move()
     {
-        if (inputDir == Vector2.zero)
+        // 입력타입에 따른 이동방향 설정
+        moveDir = isJoystickMove ?
+            new Vector3(joystick.MoveDir.x, 0, joystick.MoveDir.y):
+            new Vector3(inputDir.x, 0, inputDir.y);
+
+        // 입력이 없는 경우 예외처리
+        if (moveDir == Vector3.zero)
         {
             anim.SetBool("IsWalk", false);
+            anim.SetBool("IsRun", false);
             return;
         }
 
-        anim.SetBool("IsWalk", true);
+        if(isJoystickMove)
+            isRun = joystick.IsRun;
+
+        anim.SetBool("IsWalk", !isRun);
+        anim.SetBool("IsRun", isRun);
+
+        // 이동타입에 따른 속도설정
         float moveSpeed = isRun ? runSpeed : walkSpeed;
-        transform.forward = new Vector3(inputDir.x, 0, inputDir.y);
+
+        // 이동방향으로 바로 회전하기위한 회전 선 세팅 
+        transform.forward = moveDir;
         controller.Move(transform.forward * moveSpeed * Time.deltaTime);
     }
 }
