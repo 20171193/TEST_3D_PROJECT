@@ -9,7 +9,7 @@ public class GroundSet : MonoBehaviour
     private GameObject groundPrefab;
 
     [SerializeField]
-    private GameObject dummyPlane;
+    private MeshRenderer dummyPlaneMr;
 
     // ³Êºñ 
     private int xWidth;
@@ -21,7 +21,7 @@ public class GroundSet : MonoBehaviour
 
     private void Awake()
     {
-        Destroy(dummyPlane);
+        dummyPlaneMr.enabled = false;
 
         xSideLength = 4.5f * transform.localScale.x;
         zSideLength = 4.5f * transform.localScale.z;
