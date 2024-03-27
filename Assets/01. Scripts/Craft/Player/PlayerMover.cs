@@ -73,9 +73,6 @@ public class PlayerMover : MonoBehaviour
             return;
         }
 
-        if(isJoystickMove)
-            isRun = joystick.IsRun;
-
         anim.SetBool("IsWalk", !isRun);
         anim.SetBool("IsRun", isRun);
 

@@ -299,11 +299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ea8e179a14e9c47ba2181d385ace93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lever: {fileID: 928735393}
   backGroundImage: {fileID: 58167851}
   leverImage: {fileID: 928735394}
-  stickRange: 100
-  typeChangeThreshold: 80
+  lever: {fileID: 928735393}
+  leverStick: {fileID: 928735396}
+  leverRange: 100
   leverDistance: 0
   moveDir: {x: 0, y: 0, z: 0}
 --- !u!1 &87408771
@@ -1308,54 +1308,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diggableMT: {fileID: 2100000, guid: 31bf8e2675ca13440a3c1fbb0b122669, type: 2}
---- !u!54 &342846106
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342846100}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
---- !u!65 &342846107
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342846100}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.7501767, y: 1.722, z: 1.0664805}
-  m_Center: {x: 0, y: 0.861, z: 0}
 --- !u!1 &353484350
 GameObject:
   m_ObjectHideFlags: 0
@@ -2892,7 +2844,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54983300595cd27469b551062dd09361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diggableMT: {fileID: 0}
   targetObject: {fileID: 0}
 --- !u!114 &697006094
 MonoBehaviour:
@@ -2910,8 +2861,7 @@ MonoBehaviour:
   anim: {fileID: 1448868089}
   joystickCanvas: {fileID: 507008372}
   joystick: {fileID: 58167853}
-  walkSpeed: 1
-  runSpeed: 3
+  maxWalkSpeed: 4
   isRun: 0
 --- !u!1 &706547390
 GameObject:
@@ -3914,11 +3864,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3798598967187462076, guid: 1933da8c1d0f15a4ca9a227723a2e1a5, type: 3}
       propertyPath: m_Convex
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3798598967187462076, guid: 1933da8c1d0f15a4ca9a227723a2e1a5, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798598967187462076, guid: 1933da8c1d0f15a4ca9a227723a2e1a5, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6152794974198739282, guid: 1933da8c1d0f15a4ca9a227723a2e1a5, type: 3}
       propertyPath: m_Name
@@ -3975,12 +3929,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6152794974198739282, guid: 1933da8c1d0f15a4ca9a227723a2e1a5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 342846101}
-    - targetCorrespondingSourceObject: {fileID: 6152794974198739282, guid: 1933da8c1d0f15a4ca9a227723a2e1a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 342846106}
-    - targetCorrespondingSourceObject: {fileID: 6152794974198739282, guid: 1933da8c1d0f15a4ca9a227723a2e1a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 342846107}
   m_SourcePrefab: {fileID: 100100000, guid: 1933da8c1d0f15a4ca9a227723a2e1a5, type: 3}
 --- !u!1 &927103164
 GameObject:
@@ -4099,6 +4047,7 @@ GameObject:
   - component: {fileID: 928735393}
   - component: {fileID: 928735395}
   - component: {fileID: 928735394}
+  - component: {fileID: 928735396}
   m_Layer: 5
   m_Name: Lever
   m_TagString: Untagged
@@ -4163,6 +4112,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928735392}
   m_CullTransparentMesh: 1
+--- !u!114 &928735396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928735392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d677f1681015749b15c436eec6d880, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MovementRange: 50
+  m_DynamicOriginRange: 100
+  m_ControlPath: 
+  m_Behaviour: 0
+  m_UseIsolatedInputActions: 0
+  m_PointerDownAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 6330a99f-b789-4f10-89e2-a6f117dea61b
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  m_PointerMoveAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: d7d5bcac-f8ad-4da9-a19d-4296a5321422
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!1 &935846810
 GameObject:
   m_ObjectHideFlags: 0
@@ -8799,7 +8783,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
