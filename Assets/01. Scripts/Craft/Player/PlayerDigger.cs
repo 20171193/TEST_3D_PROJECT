@@ -13,7 +13,6 @@ public class PlayerDigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         if(other.gameObject.layer == LayerMask.NameToLayer("Diggable"))
         {
             targetObject = other.gameObject;
