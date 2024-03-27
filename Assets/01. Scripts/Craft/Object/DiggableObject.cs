@@ -24,4 +24,13 @@ public class DiggableObject : MonoBehaviour
     {
         meshRenderer.materials = originMT;
     }
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    OnTargeted();
+    //}
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    OffTargeted();
+    //}
 }

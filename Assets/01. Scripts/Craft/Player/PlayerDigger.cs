@@ -6,18 +6,21 @@ public class PlayerDigger : MonoBehaviour
 {
     // 캘 수 있는 모든 오브젝트에 적용할 머터리얼
     [SerializeField]
-    private Material diggableMT;
+    private DiggableObject targetObject;
+    public DiggableObject TargetObject { get { return targetObject; } }
 
-    [SerializeField]
-    private GameObject targetObject;
+
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
-        if(other.gameObject.layer == LayerMask.NameToLayer("Diggable"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Diggable"))
         {
-            targetObject = other.gameObject;
-            targetObject.GetComponent<DiggableObject>().OnTargeted();
+            // 오브젝트를 할당
+            targetObject = other.gameObject.GetComponent<DiggableObject>();
+            if (targetObject == null)
+            {
+
+            }
         }
 
     }
@@ -25,7 +28,7 @@ public class PlayerDigger : MonoBehaviour
     {
         if (other.gameObject == targetObject)
         {
-            targetObject.GetComponent<DiggableObject>().OffTargeted();
+            targetObject.GetComponent<DiggableObject>()?.OffTargeted();
             targetObject = null;
         }
     }

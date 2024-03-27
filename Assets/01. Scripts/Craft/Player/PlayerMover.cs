@@ -11,8 +11,9 @@ public class PlayerMover : MonoBehaviour
     private CharacterController controller;
     [SerializeField]
     private Animator anim;
+
     [SerializeField]
-    private JoystickController joystick;
+    private Joystick joystick;
 
     [Space(3)]
     [Header("Specs")]
@@ -45,6 +46,10 @@ public class PlayerMover : MonoBehaviour
     private Vector2 inputDir;
     private Vector3 moveDir;
 
+    private void Start()
+    {
+    }
+
     private void Update()
     {
         Move();
@@ -68,9 +73,6 @@ public class PlayerMover : MonoBehaviour
             return;
         }
 
-        if(isJoystickMove)
-            isRun = joystick.IsRun;
-
         anim.SetBool("IsWalk", !isRun);
         anim.SetBool("IsRun", isRun);
 
@@ -80,5 +82,13 @@ public class PlayerMover : MonoBehaviour
         // 이동방향으로 바로 회전하기위한 회전 선 세팅 
         transform.forward = moveDir;
         controller.Move(transform.forward * moveSpeed * Time.deltaTime);
+    }
+
+    private void OnMouseClick(InputValue value)
+    {
+        Vector2 mousePos = Input.mousePosition;
+        Debug.Log(mousePos);
+        if (mousePos.x > Screen.width / 2) return;
+        joystick.EnableJoystick(mousePos);
     }
 }
